@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy 26th Birthday, Lidu</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #0d0d0d;
+      color: #fff;
+      overflow: hidden;
+      font-family: Montserrat, Arial, sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 60px;
+      line-height: 80px;
+      margin-top: 12vh;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px #fff,
+                   0 0 10px #ff00de,
+                   0 0 20px #ff00de,
+                   0 0 40px #ff00de;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin: 0 12px;
+      color: #ffccff;
+      text-shadow: 0 0 5px #fff,
+                   0 0 10px #ff00de,
+                   0 0 20px #ff00de;
+    }
+
+    .cursor {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ff00de;
+      box-shadow: 0 0 20px #ff00de,
+                  0 0 40px #ff00de,
+                  0 0 60px #ff00de;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy 26th Birthday<br>Lidu ❤️</h1>
+  <h2>You light up my world ✨</h2>
+
+  <!-- Neon glowing dot -->
+  <div class="cursor" id="cursor"></div>
+
+  <script>
+    const c = document.getElementById('cursor');
+    let t = 0;
+
+    function animate() {
+      // Circular path
+      const x = window.innerWidth / 2 + Math.cos(t / 50) * 200;
+      const y = window.innerHeight / 2 + Math.sin(t / 50) * 150;
+
+      c.style.left = x + 'px';
+      c.style.top = y + 'px';
+
+      t++;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

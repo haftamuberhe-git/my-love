@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Happy 26th Birthday, Lidu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root { --pink:#e6005c; }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+
+  .view{display:none;min-height:100vh}
+  .view.active{display:flex}
+
+  /* ============ Card view (left panel) ============ */
+  body,.card-view{font-family:'Montserrat',Arial,sans-serif}
+  .card-view{
+    display:flex;justify-content:flex-start;align-items:center;
+    min-height:100vh;padding:20px;
+    background:
+      linear-gradient(to bottom,rgba(255,245,247,.85),rgba(255,245,247,.85)),
+      url('photo_2024-06-21_11-59-30.jpg') center/cover no-repeat fixed;
+    color:#333;text-align:left;
+  }
+  .card{
+    background:#fff;width:90%;max-width:420px;padding:26px 20px;
+    border-radius:22px;box-shadow:0 8px 28px rgba(0,0,0,.12);margin-left:30px
+  }
+  .script{font-family:'Great Vibes',cursive;color:var(--pink)}
+  h1.script{font-size:2.5rem;margin:4px 0 10px}
+  p{font-size:1.05rem;line-height:1.6;margin:10px 0}
+  .heart{color:var(--pink);font-size:1.1rem}
+  .photo{
+    width:160px;height:160px;object-fit:cover;border-radius:50%;
+    border:6px solid var(--pink);box-shadow:0 0 24px #ff8fb3;margin-bottom:10px
+  }
+  .btn{
+    display:inline-block;margin:10px 6px;padding:10px 18px;border:none;
+    border-radius:999px;background:var(--pink);color:#fff;cursor:pointer;font-size:1rem
+  }
+  .ghost{background:#ff3366;text-decoration:none}
+
+  .float-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+  .piece{position:absolute;font-size:26px;animation:fall var(--dur) linear forwards}
+  @keyframes fall{
+    0%{transform:translate(var(--x),-10vh) rotate(0) scale(1);opacity:0}
+    10%{opacity:1}
+    100%{transform:translate(calc(var(--x) + var(--drift)),110vh) rotate(var(--rot));opacity:0}
+  }
+
+  .secret{
+    opacity:0;max-height:0;overflow:hidden;margin-top:12px;font-size:1.05rem;
+    color:#c0184f;font-style:italic;transition:opacity .5s,max-height .5s;white-space:pre-line
+  }
+  .secret.show{opacity:1;max-height:650px}
+
+  /* ============ Neon view ============ */
+  .neon-view{
+    position:relative;flex-direction:column;justify-content:center;align-items:center;
+    background:#050505;color:#fff;font-family:'Montserrat',Arial,sans-serif;overflow:hidden
+  }
+  .neon-wrap{position:relative;z-index:2;padding:18px 12px 40px;text-align:center}
+  .neon-title{
+    margin:18px 8px 2px;font-size:2.6rem;line-height:1.2;text-transform:uppercase;letter-spacing:1px;
+    text-shadow:0 0 5px #fff,0 0 10px #ff00de,0 0 20px #ff00de,0 0 40px #ff00de
+  }
+  .neon-sub{
+    font-size:1.1rem;margin:0 12px 8px;color:#ffccff;
+    text-shadow:0 0 5px #fff,0 0 10px #ff00de,0 0 20px #ff00de
+  }
+  .neon-message{
+    font-family:'Great Vibes',cursive;font-size:1.8rem;margin-top:14px;color:#ff66cc;
+    text-shadow:0 0 4px #fff,0 0 8px #ff33aa,0 0 14px #ff33aa,0 0 22px #ff0099;
+    animation:glowPulse 2.6s ease-in-out infinite
+  }
+  @keyframes glowPulse{
+    0%,100%{text-shadow:0 0 4px #fff,0 0 8px #ff33aa,0 0 14px #ff33aa,0 0 22px #ff0099;opacity:.95}
+    50%{text-shadow:0 0 6px #fff,0 0 14px #ff33aa,0 0 26px #ff33aa,0 0 42px #ff0099;opacity:1}
+  }
+  .neon-photo{
+    width:190px;height:190px;border-radius:50%;object-fit:cover;border:6px solid #ff00de;
+    margin:18px auto 10px;box-shadow:0 0 28px #ff00de;display:block
+  }
+
+  /* Canvas overlay for romantic cursor trail */
+  #romanceCanvas{
+    position:fixed;inset:0;z-index:1;pointer-events:none; /* sits above bg, below text */
+  }
+
+  /* Back chip */
+  .chip{
+    position:fixed;left:12px;top:12px;z-index:3;background:#ff00de33;color:#fff;
+    border:1px solid #ff00de77;border-radius:999px;padding:8px 12px;text-decoration:none;font-size:.95rem
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ CARD VIEW ============ -->
+<section id="card" class="view card-view active">
+  <div class="float-layer" id="floatLayer"></div>
+
+  <div class="card">
+    <img class="photo" src="IMG-20240806-WA0023.jpg" alt="Lidu">
+
+    <h1 class="script">Happy 26th Birthday, Lidu</h1>
+
+    <p>My dearest <strong>Lidu</strong>,</p>
+    <p>You are the most special person in my life and I’m so lucky to have you.
+       You bring light, happiness, and love into my world every single day.</p>
+    <p>Wishing you endless joy, success, and beautiful moments ahead.
+       May all your dreams come true, and may we celebrate many more birthdays together.</p>
+    <p class="heart">With all my love,<br>Haftamu 💕</p>
+
+    <button class="btn" id="celebrateBtn">✨ Tap for Surprise</button>
+    <a class="btn ghost" href="https://youtu.be/lvAoHssg6qQ?si=lkfDk4rWxtYtQBmK" target="_blank">🎶 Play Song</a>
+    <button class="btn" id="secretBtn">💌 Secret Message</button>
+    <button class="btn" id="toNeon">💡 Neon Version</button>
+
+    <p class="secret" id="secretMsg"></p>
+  </div>
+</section>
+
+<!-- ============ NEON VIEW with Romantic Cursor Trail ============ -->
+<section id="neon" class="view neon-view">
+  <a class="chip" id="backCard">← Back</a>
+
+  <!-- Canvas for the interactive romantic trail -->
+  <canvas id="romanceCanvas"></canvas>
+
+  <div class="neon-wrap">
+    <img class="neon-photo" src="2025-09-27_23-32-00.jpg" alt="Lidu">
+    <div class="neon-title">Happy 26th Birthday<br>Lidu ❤️</div>
+    <div class="neon-sub">You light up my world ✨</div>
+    <div class="neon-message">Forever my angel, my sunshine, my love 💖</div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  /* ===== View switching ===== */
+  const card = document.getElementById('card');
+  const neon = document.getElementById('neon');
+  document.getElementById('toNeon').onclick = () => { card.classList.remove('active'); neon.classList.add('active'); };
+  document.getElementById('backCard').onclick = () => { neon.classList.remove('active'); card.classList.add('active'); };
+
+  /* ===== Secret typing message ===== */
+  const secretBtn = document.getElementById('secretBtn');
+  const secret = document.getElementById('secretMsg');
+  const text = `My sweetest Lidu 💖
+
+Every day I thank God for sending me my angel — you.
+You are not only my love, but the reason my world is brighter, kinder, and full of hope.
+Some people search the skies for angels, but I found mine right here on earth — and she’s you.
+
+With all my love,
+Haftamu ❤️`;
+  let typing = false;
+  secretBtn.onclick = () => {
+    if (typing) return;
+    typing = true;
+    secret.textContent = '';
+    secret.classList.add('show');
+    let i = 0;
+    (function typeWriter(){
+      if (i < text.length) {
+        secret.textContent += text.charAt(i++);
+        setTimeout(typeWriter, 28);
+      }
+    })();
+  };
+
+  /* ===== Surprise rain in card ===== */
+  const layer = document.getElementById('floatLayer');
+  document.getElementById('celebrateBtn').onclick = () => {
+    const count = 48;
+    for (let i = 0; i < count; i++) {
+      const span = document.createElement('span');
+      span.className = 'piece';
+      const r = Math.random();
+      span.textContent = r < 0.33 ? '❤️' : (r < 0.66 ? '🎉' : '🌹');
+      const x = Math.random() * innerWidth;
+      const dur = 2600 + Math.random() * 2400;
+      const drift = (Math.random() * 180 - 90) + 'px';
+      const rot = (Math.random() * 720 - 360) + 'deg';
+      span.style.left = x + 'px';
+      span.style.setProperty('--x','0px');
+      span.style.setProperty('--drift',drift);
+      span.style.setProperty('--rot',rot);
+      span.style.setProperty('--dur',dur+'ms');
+      layer.appendChild(span);
+      setTimeout(()=> layer.removeChild(span), dur+220);
+    }
+  };
+
+  /* ===== Romantic cursor trail on canvas (Neon view) ===== */
+  const canvas = document.getElementById('romanceCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, points=[], mouse={x: innerWidth/2, y: innerHeight/2}, lastMove=performance.now();
+
+  function resize(){
+    W = canvas.width = innerWidth * devicePixelRatio;
+    H = canvas.height = innerHeight * devicePixelRatio;
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  resize(); addEventListener('resize', resize);
+
+  addEventListener('mousemove', (e)=>{
+    mouse.x = e.clientX; mouse.y = e.clientY; lastMove = performance.now();
+  }, {passive:true});
+
+  // create points along the path (like the dragon), but draw hearts/petals
+  const MAX_POINTS = 24;
+  function pushPoint(x,y){
+    points.unshift({x,y, t: performance.now()});
+    if(points.length > MAX_POINTS) points.pop();
+  }
+
+  // draw helpers
+  function drawHeart(x,y,sz,rot,glow='#ff66cc'){
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(rot);
+    ctx.shadowColor = glow;
+    ctx.shadowBlur = 18;
+    ctx.fillStyle = '#ff4fa3';
+    ctx.beginPath();
+    // parametric heart
+    for(let a=0;a<=Math.PI*2;a+=0.1){
+      const r = sz*0.7;
+      const hx = r*16*Math.pow(Math.sin(a),3);
+      const hy = -r*(13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a));
+      if(a===0) ctx.moveTo(hx,hy); else ctx.lineTo(hx,hy);
+    }
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawPetal(x,y,sz,rot){
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(rot);
+    ctx.shadowColor = '#ffd1e6';
+    ctx.shadowBlur = 12;
+    ctx.fillStyle = '#ffc0d9';
+    ctx.beginPath();
+    ctx.ellipse(0,0,sz*0.9,sz*0.45,0,0,Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // idle swirl when no movement
+  function idlePosition(t){
+    const rX = 180, rY = 120;
+    return {
+      x: innerWidth/2 + Math.cos(t/900)*rX,
+      y: innerHeight/2 + Math.sin(t/700)*rY
+    };
+  }
+
+  function loop(t){
+    // fade the canvas slightly for trail softness
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+
+    // choose source position
+    const idle = (t - lastMove) > 1200;
+    const src = idle ? idlePosition(t) : mouse;
+
+    // add a new point (lerp for smoothness)
+    if(points.length===0){
+      pushPoint(src.x, src.y);
+    }else{
+      const px = points[0].x, py = points[0].y;
+      const nx = px + (src.x - px)*0.35;
+      const ny = py + (src.y - py)*0.35;
+      pushPoint(nx, ny);
+    }
+
+    // compute average speed (for stretch)
+    let totalDist = 0;
+    for(let i=1;i<points.length;i++){
+      const a=points[i-1], b=points[i];
+      totalDist += Math.hypot(a.x-b.x, a.y-b.y);
+    }
+    const avgDist = totalDist / Math.max(1, points.length-1);
+    const stretched = avgDist > 22; // “fast” threshold
+
+    // draw from tail to head
+    for(let i=points.length-1;i>0;i--){
+      const p = points[i], q = points[i-1];
+      const dx = q.x - p.x, dy = q.y - p.y;
+      const ang = Math.atan2(dy, dx);
+
+      // size tapers towards tail; head bigger when stretched
+      const base = 10 + (i/points.length)*12;
+      const size = i===1 && stretched ? base*1.8 : base;
+
+      // alternate hearts and petals for romance
+      if(i % 3 === 0) drawPetal(p.x, p.y, size*0.9, ang);
+      else drawHeart(p.x, p.y, size/18, ang);
+    }
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
